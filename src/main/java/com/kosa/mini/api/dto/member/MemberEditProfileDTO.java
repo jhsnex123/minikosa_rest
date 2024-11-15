@@ -3,7 +3,9 @@ package com.kosa.mini.api.dto.member;
 import com.kosa.mini.api.entity.Member;
 import com.kosa.mini.api.entity.Role;
 import lombok.Data;
+import lombok.ToString;
 
+@ToString
 @Data
 public class MemberEditProfileDTO {
     private Integer memberId;

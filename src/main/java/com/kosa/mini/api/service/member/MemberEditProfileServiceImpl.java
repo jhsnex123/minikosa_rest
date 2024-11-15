@@ -57,7 +57,9 @@ public class MemberEditProfileServiceImpl {
     }
 
 
+
+
     public boolean existsByNickname(String nickname) {
-        return true;
+        return memberRepository.existsByNickname(nickname);
     }
 }
