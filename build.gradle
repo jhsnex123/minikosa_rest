@@ -46,6 +46,14 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
+	// Spring Data Redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// Jackson JSON 직렬화 (RefreshToken을 JSON으로 저장하기 위함)
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+	// Redisson (옵션): 고급 Redis 기능이 필요하다면 추가
+	// implementation 'org.redisson:redisson-spring-boot-starter:3.20.0'
 }
 
 tasks.named('test') {

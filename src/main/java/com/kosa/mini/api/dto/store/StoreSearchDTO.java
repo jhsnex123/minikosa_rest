@@ -10,4 +10,6 @@ public class StoreSearchDTO {
     private String storeName;
     private String roadAddress;
     private String contactNumber;
+
+
 }

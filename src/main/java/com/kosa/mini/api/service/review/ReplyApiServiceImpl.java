@@ -1,6 +1,7 @@
 package com.kosa.mini.api.service.review;
 
 import com.kosa.mini.api.dto.review.ReplySaveDTO;
+import com.kosa.mini.api.dto.review.ReplyUpdateDTO;
 import com.kosa.mini.api.entity.Member;
 import com.kosa.mini.api.entity.Review;
 import com.kosa.mini.api.entity.ReviewReply;
@@ -38,5 +39,22 @@ public class ReplyApiServiceImpl implements ReplyApiService {
         replyRepository.save(reviewReply);
         replySaveDTO.fromEntity(reviewReply);
         return replySaveDTO;
+    }
+
+    @Override
+    public ReplyUpdateDTO updateReply(ReplyUpdateDTO replyUpdateDTO, Integer ownerId, Integer reviewId) {
+        Member member = new Member();
+        Review review = new Review();
+        member.setMemberId(ownerId);
+        review.setReviewId(reviewId);
+        ReviewReply newReply = replyUpdateDTO.toEntity(member, review);
+        ReviewReply oldReply = replyRepository.findById(replyUpdateDTO.getReplyId()).orElse(null);
+        if(oldReply == null) {
+            return null;
+        } else {
+            ReviewReply updated = replyRepository.save(newReply);
+            replyUpdateDTO.fromEntity(updated);
+            return replyUpdateDTO;
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.kosa.mini.api.controller.home;
 
-import com.kosa.mini.api.dto.home.StoreDTO;
+import com.kosa.mini.api.dto.home.HomeStoreDTO;
 import com.kosa.mini.api.service.home.HomeApiApiServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ public class HomeApiController {
     private HomeApiApiServiceImpl service;
 
     @GetMapping({"/", "/home"})
-    public List<StoreDTO> goHome(){
+    public List<HomeStoreDTO> goHome(){
         return service.home();
     }
 }

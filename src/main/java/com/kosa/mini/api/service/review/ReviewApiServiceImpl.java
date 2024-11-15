@@ -3,6 +3,7 @@ package com.kosa.mini.api.service.review;
 import com.kosa.mini.api.dto.review.ReviewReplyDTO;
 import com.kosa.mini.api.dto.review.ReviewSaveDTO;
 import com.kosa.mini.api.dto.review.ReviewResponseDTO;
+import com.kosa.mini.api.dto.review.ReviewsUpdateDTO;
 import com.kosa.mini.api.entity.Member;
 import com.kosa.mini.api.entity.Review;
 import com.kosa.mini.api.entity.Store;
@@ -68,5 +69,23 @@ public class ReviewApiServiceImpl implements ReviewApiService {
         }else {
             return false;
         }
+    }
+
+    @Override
+    @Transactional
+    public ReviewsUpdateDTO updateReviews(ReviewsUpdateDTO reviewsUpdateDTO, Integer memberId, Integer storeId) {
+        Review newReview;
+        Member member = new Member();
+        member.setMemberId(memberId);
+        Store store = new Store();
+        store.setStoreId(storeId);
+        newReview = reviewsUpdateDTO.toEntity(member, store);
+        Review oldReview = reviewRepository.findById(reviewsUpdateDTO.getReviewId()).orElse(null);
+        if(oldReview == null || reviewsUpdateDTO.getReviewId() == null) {
+            return null;
+        }
+        Review updated = reviewRepository.save(newReview);
+        reviewsUpdateDTO.fromEntity(updated);
+        return reviewsUpdateDTO;
     }
 }

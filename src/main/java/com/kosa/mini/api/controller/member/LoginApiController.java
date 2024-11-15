@@ -2,6 +2,7 @@ package com.kosa.mini.api.controller.member;
 
 import com.kosa.mini.api.dto.member.LoginDTO;
 import com.kosa.mini.api.dto.member.TokenResponseDTO;
+import com.kosa.mini.api.exception.LoginException;
 import com.kosa.mini.api.service.member.LoginService;
 import com.kosa.mini.api.security.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +25,6 @@ public class LoginApiController {
 
     @Autowired
     public LoginApiController(LoginService loginService, JwtTokenProvider tokenProvider) {
-
         this.loginService = loginService;
         this.tokenProvider = tokenProvider;
     }
@@ -56,12 +56,15 @@ public class LoginApiController {
 
             return ResponseEntity.ok(responseBody);
         } catch (Exception e) {
-            log.error("로그인 실패: ", e); //예외의 스택 트레이스를 함께 로그에 남김
+            log.error("로그인 실패: ", e); // 예외의 스택 트레이스를 함께 로그에 남김
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다.");
-
         }
     }
 
+    /**
+     * 로그아웃 엔드포인트
+     */
+    @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = null;
         if (request.getCookies() != null) {
@@ -142,3 +145,4 @@ public class LoginApiController {
         }
     }
 }
+

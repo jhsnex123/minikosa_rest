@@ -7,10 +7,8 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class SearchResultDTO {
+public class SearchDTO {
     private String query;
-    private List<HomeStoreDTO> storeResults;
-    private List<StoreReviewDTO> reviewResults;
-    private int storeCount;
-    private int reviewCount;
+    private String sort = "latest";
+    private String type = "store";
 }

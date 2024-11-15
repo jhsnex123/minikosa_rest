@@ -1,6 +1,7 @@
 package com.kosa.mini.api.repository;
 
 import com.kosa.mini.api.dto.review.ReviewReplyDTO;
+import com.kosa.mini.api.dto.review.ReviewsUpdateDTO;
 import com.kosa.mini.api.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +27,5 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
             "WHERE r.store.storeId = :storeId " +
             "ORDER BY r.createdAt DESC")
     List<ReviewReplyDTO> findByStoreStoreId(@Param("storeId") Integer storeId);
+    ReviewsUpdateDTO findByReviewId(Integer reviewId);
 }

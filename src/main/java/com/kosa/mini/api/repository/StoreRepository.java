@@ -32,7 +32,6 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
             "s.detailAddress, s.extraAddress, s.storeDescription, s.websiteInfo, " +
             "s.openingTime, s.closingTime, s.contactNumber, s.storePhoto, s.owner.memberId")
     StoreContentDTO findStoreWithContent(@Param("storeId") Integer storeId);
-
     List<Store> findByStoreNameContainingIgnoreCase(String storeName);
 
 }
