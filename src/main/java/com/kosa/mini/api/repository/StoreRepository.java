@@ -50,4 +50,6 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 
     @Query("SELECT s.storePhoto FROM Store s WHERE s.storeId = :storeId")
     String getStorePhoto(Integer storeId);
+
+    Store findByOwner_MemberId(Integer memberId);
 }

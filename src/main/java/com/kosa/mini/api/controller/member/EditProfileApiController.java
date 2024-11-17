@@ -26,61 +26,68 @@ import java.util.Map;
 @RequestMapping("/api/v1")
 public class EditProfileApiController {
     @Autowired
-    private MemberEditProfileServiceImpl memberEditProfileService; // 서비스 객체 주입
-
+    private final MemberEditProfileServiceImpl memberEditProfileService; // 서비스 객체 주입
+    @Autowired
+    private SignUpServiceImpl signUpService;
     @Autowired
     private MemberEditProfileRepository memberEditProfileRepository; // 리퍼지터리 주입
 
-    @Autowired
-    private SignUpServiceImpl signUpService;
 
-        @GetMapping("/userinfo")
+    public EditProfileApiController(MemberEditProfileServiceImpl memberEditProfileService) {
+        this.memberEditProfileService = memberEditProfileService;
+    }
+
+    // 사용자 정보 조회 (GET)
+    @GetMapping("/userinfo")
     public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal UserDetails userDetails) {
 
         if (userDetails == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //로그인 안될경우 UNAUTHORIZED 반환 뭔진 잘 모르겠...
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        // UserDetails에서 username (memberId) 가져오기
-        String memberIdStr = userDetails.getUsername(); // CustomUserDetailsService에서 username을 memberId로 설정했음
+        String memberIdStr = userDetails.getUsername();
         Integer memberId;
         try {
             memberId = Integer.parseInt(memberIdStr);
         } catch (NumberFormatException e) {
-            log.error("Invalid memberId format: {}", memberIdStr);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-            //memberEditProfileRepository.findById(memberId); //멤버 리퍼지토리로 findId 조회     //멤버 리퍼지토리로 findId 조회
-            return ResponseEntity.ok(memberEditProfileRepository.findById(memberId));   // 멤버아이디에 반환값 ResponseEntity에 200상태코드 부여
+        // 사용자의 정보를 DTO로 반환
+        MemberEditProfileDTO memberDTO = memberEditProfileService.getUserInfo(memberId);
+        if (memberDTO == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 사용자가 없으면 404 반환
+        }
+
+        return ResponseEntity.ok(memberDTO);
     }
 
-    @PutMapping("/editprofile")
-    public ResponseEntity<Member> update( @AuthenticationPrincipal UserDetails userDetails,
-                                          @Valid @RequestBody MemberEditProfileDTO dto){
-        log.info("입력 dto값"+dto.toString());
+    // 사용자 정보 수정 (PUT)
+    @PutMapping("/userinfo")
+    public ResponseEntity<?> updateUserInfo(@AuthenticationPrincipal UserDetails userDetails,
+                                            @RequestBody MemberEditProfileDTO memberEditProfileDTO) {
 
         if (userDetails == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //로그인 안될경우 UNAUTHORIZED 반환 뭔진 잘 모르겠...
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        // UserDetails에서 username (memberId) 가져오기
-        String memberIdStr = userDetails.getUsername(); // CustomUserDetailsService에서 username을 memberId로 설정했음
+        String memberIdStr = userDetails.getUsername();
         Integer memberId;
         try {
             memberId = Integer.parseInt(memberIdStr);
         } catch (NumberFormatException e) {
-            log.error("Invalid memberId format: {}", memberIdStr);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        dto.setMemberId(memberId);
-        log.info("입력 dto값"+dto.toString());
 
-        Member member = memberEditProfileService.update(memberId, dto);
+        // 사용자 정보 업데이트
+        Member updatedMember = memberEditProfileService.update(memberId, memberEditProfileDTO);
 
-        return (member != null) ?
-                ResponseEntity.status(HttpStatus.OK).body(member) :
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        if (updatedMember == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // 잘못된 요청
+        }
+
+        // 업데이트된 사용자 정보 반환
+        return ResponseEntity.ok(updatedMember);
     }
 
     // 닉네임 중복 검사

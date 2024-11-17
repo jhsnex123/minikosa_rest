@@ -19,7 +19,7 @@ public class MemberEditProfileDTO {
     private String password;
     private String confirmPassword;
 
-
+    private String storeName;
 
 
     // DTO -> Entity 변환 메서드
@@ -31,8 +31,20 @@ public class MemberEditProfileDTO {
                 .nickname(nickname)
                 .email(email)
                 .phoneNumber(phoneNumber)
-                .password(password)
                 .role(roleId)
                 .build();
     }
+
+    // Entity -> DTO 변환 메서드 (새로 추가)
+    public static MemberEditProfileDTO fromEntity(Member member) {
+        MemberEditProfileDTO dto = new MemberEditProfileDTO();
+        dto.setMemberId(member.getMemberId());
+        dto.setName(member.getName());
+        dto.setEmail(member.getEmail());
+        dto.setNickname(member.getNickname());
+        dto.setPhoneNumber(member.getPhoneNumber());
+        dto.setRoleId(member.getRole());
+        return dto;
+    }
+
 }
