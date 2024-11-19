@@ -40,7 +40,7 @@
           <div class="table-cell date">작성일</div>
           <div class="table-cell writer">작성자</div>
           <div class="table-cell views">조회수</div>
-          <div class="table-cell action">액션</div>
+          <div class="table-cell action">삭제</div>
         </div>
       </div>
 

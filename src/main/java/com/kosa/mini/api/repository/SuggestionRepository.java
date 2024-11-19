@@ -1,6 +1,7 @@
 package com.kosa.mini.api.repository;
 
 
+import com.kosa.mini.api.dto.admin.SuggestionDetailDTO;
 import com.kosa.mini.api.entity.ContactUs;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

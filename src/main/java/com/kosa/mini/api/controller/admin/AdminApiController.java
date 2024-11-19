@@ -1,5 +1,6 @@
 package com.kosa.mini.api.controller.admin;
 
+import com.kosa.mini.api.dto.admin.SuggestionDetailDTO;
 import com.kosa.mini.api.dto.member.UserSearchDTO;
 import com.kosa.mini.api.dto.request.AssignOwnerRequest;
 import com.kosa.mini.api.dto.request.StoreExistenceRequest;
@@ -62,7 +63,7 @@ public class AdminApiController {
     }
 
     @GetMapping("/suggestion/{contactId}")
-    public ResponseEntity<ContactUs> getSuggestion(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<SuggestionDetailDTO> getSuggestion(@AuthenticationPrincipal UserDetails userDetails,
                                                    @PathVariable Integer contactId) {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -77,7 +78,7 @@ public class AdminApiController {
 
         try {
             suggestionService.incrementViews(contactId);
-            ContactUs suggestion = suggestionService.getSuggestionById(contactId);
+            SuggestionDetailDTO suggestion = suggestionService.getSuggestionById(contactId);
             return ResponseEntity.ok(suggestion);
         } catch (ResourceNotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

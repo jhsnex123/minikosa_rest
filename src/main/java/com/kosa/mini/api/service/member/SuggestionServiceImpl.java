@@ -1,5 +1,6 @@
 package com.kosa.mini.api.service.member;
 
+import com.kosa.mini.api.dto.admin.SuggestionDetailDTO;
 import com.kosa.mini.api.dto.member.ContactUsDTO;
 import com.kosa.mini.api.dto.member.MemberDTO;
 import com.kosa.mini.api.entity.ContactUs;
@@ -60,9 +61,23 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     @Override
-    public ContactUs getSuggestionById(Integer contactId) throws ResourceNotFoundException {
-        return suggestionRepository.findById(contactId)
+    public SuggestionDetailDTO getSuggestionById(Integer contactId) throws ResourceNotFoundException {
+        ContactUs contactUs = suggestionRepository.findById(contactId)
                 .orElseThrow(() -> new ResourceNotFoundException("ContactUs not found with id: " + contactId));
+
+        // 엔티티를 DTO로 변환하여 반환
+        return SuggestionDetailDTO.builder()
+                .contactId(contactUs.getContactId())
+                .title(contactUs.getTitle())
+                .storeName(contactUs.getStoreName())
+                .createdAt(contactUs.getCreatedAt())
+                .updatedAt(contactUs.getUpdatedAt())
+                .isModified(contactUs.getIsModified())
+                .content(contactUs.getContent())
+                .views(contactUs.getViews())
+                .memberId(contactUs.getMember() != null ? contactUs.getMember().getMemberId() : null) // 연관된 멤버 ID 추가
+                .memberName(contactUs.getMember() != null ? contactUs.getMember().getNickname() : null) // 연관된 멤버 이름 추가
+                .build();
     }
 
     @Override
