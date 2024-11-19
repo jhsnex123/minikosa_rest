@@ -38,7 +38,7 @@
           <div class="table-cell no">No</div>
           <div class="table-cell title">제목</div>
           <div class="table-cell date">작성일</div>
-          <div class="table-cell writer">작성자</div>
+          <div class="table-cell date">수정일</div>
           <div class="table-cell views">조회수</div>
           <div class="table-cell action">삭제</div>
         </div>

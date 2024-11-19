@@ -20,6 +20,7 @@
 
       <!-- 게시글 메타 정보 -->
       <div class="post-meta" v-if="adminStore.currentSuggestion">
+        <span>가게명: {{ adminStore.currentSuggestion.storeName}}</span> |
         <span>작성자: {{ adminStore.currentSuggestion.memberName || 'Unknown' }}</span> |
         <span>작성일: {{ formatDate(adminStore.currentSuggestion.createdAt) }}</span> |
         <span>조회수: {{ adminStore.currentSuggestion.views }}</span>
