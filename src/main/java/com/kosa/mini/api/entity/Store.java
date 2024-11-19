@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Set;
 
 
-
+@Builder
 @Entity
 @Table(name = "stores")
 @Data

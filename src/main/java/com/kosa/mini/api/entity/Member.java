@@ -62,16 +62,16 @@ public class Member {
         return this.role != null ? this.role.getRoleId() : null;
     }
 
-    public void put(Member member) {
-        if(member.name != null)
-            this.name= member.name;
-        if(member.nickname != null)
-            this.nickname= member.nickname;
-        if(member.phoneNumber != null)
-            this.phoneNumber= member.phoneNumber;
-        if(member.password != null)
-            this.password=member.password;
-        if(member.role != null)
-            this.role=member.role;
-    }
+//    public void put(Member member) {
+//        if(member.name != null)
+//            this.name= member.name;
+//        if(member.nickname != null)
+//            this.nickname= member.nickname;
+//        if(member.phoneNumber != null)
+//            this.phoneNumber= member.phoneNumber;
+//        if(member.password != null)
+//            this.password=member.password;
+//        if(member.role != null)
+//            this.role=member.role;
+//    }
 }
